@@ -1,0 +1,24 @@
+name: Playwright Tests
+on:
+  push:
+    branches: main
+  pull_request:
+    branches: main
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Decrypting a secret file
+      run: gpg --passphrase=1234567890 --batch --no-tty --yes --output .env.secret --decrypt .env.secret.gpg
+    - name: Build dotnet
+      run: dotnet build
+    - name: Ensure browsers are installed
+      run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+    - name: Run your tests
+      run: dotnet test --collect:"XPlat Code Coverage" --results-directory Tests/resources/code
