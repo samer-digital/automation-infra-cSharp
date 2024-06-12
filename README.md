@@ -6,75 +6,75 @@ This project is a C# automation infrastructure using Playwright and NUnit for UI
 
 ## Project Structure
 
-Automation-Infra-Csharp/ /r
-├── .github/
-│   └── workflows/
-├── Assets/
-│   └── Apps/
-│       ├── google-maps.apk
-│       └── GoogleMaps6-119-1.ipa
-├── Infra/
-│   ├── Api/
-│   │   ├── ApiOptions.cs
-│   │   └── ApiService.cs
-│   ├── Browser/
-│   │   ├── BrowserOptions.cs
-│   │   ├── ComponentBase.cs
-│   │   ├── PageBase.cs
-│   │   └── PageOptions.cs
-│   ├── Config/
-│   │   └── ConfigProvider.cs
-│   ├── Context/
-│   │   ├── ContextHolder.cs
-│   │   ├── ContextOptions.cs
-│   │   ├── DbContext.cs
-│   │   ├── TestContext.cs
-│   │   └── WorkerContext.cs
-│   ├── DB/
-│   │   ├── DBType.cs
-│   │   ├── IDBConnectionHolder.cs
-│   │   ├── IDBLogicBase.cs
-│   │   ├── MongoDBConnectionHolder.cs
-│   │   ├── MySQLConnectionHolder.cs
-│   │   └── PgConnectionHolder.cs
-│   ├── Email/
-│   │   └── EmailService.cs
-│   ├── Mobile/
-│   │   ├── AndroidAppPageBase.cs
-│   │   ├── AppPageBase.cs
-│   │   ├── AppPageOptions.cs
-│   │   ├── Capabilities.cs
-│   │   ├── IosAppPageBase.cs
-│   │   └── Platform.cs
-│   ├── Plugin/
-│   │   └── ITestplugin.cs
-│   │   └── IWorkerPlugin.cs
-│   │   └── LoggingTestPlugin.cs
-│   │   └── LoggingWorkerPlugin.cs
-│   ├── Utils/
-│       └── Utils.cs
-├── Tests/
-│   ├── Browser/
-│   │   └── GoogleMapsTests.cs
-│   ├── Mobile/
-│   │   ├── App/
-│   │   │   └── YourAppTests.cs
-│   │   └── Browser/
-│   │       └── GoogleMapsMobileBrowserTests.cs
-│   ├── Resources/
-│   │   ├── playwright-traces/
-│   │   └── screenshots/
-│   │       └── .gitkeep
-│   ├── BaseTest.cs
-│   └── Tests.csproj
-├── browserOptions.json
-├── contextOptions.json
-├── storageState.json
-├── .env
-├── .env.secret.gpg
-├── .gitignore
-├── AutomationTestsCsharp.sln
-└── README.md
+Automation-Infra-Csharp/<br>
+├── .github/<br>
+│   └── workflows/<br>
+├── Assets/<br>
+│   └── Apps/<br>
+│       ├── google-maps.apk<br>
+│       └── GoogleMaps6-119-1.ipa<br>
+├── Infra/<br>
+│   ├── Api/<br>
+│   │   ├── ApiOptions.cs<br>
+│   │   └── ApiService.cs<br>
+│   ├── Browser/<br>
+│   │   ├── BrowserOptions.cs<br>
+│   │   ├── ComponentBase.cs<br>
+│   │   ├── PageBase.cs<br>
+│   │   └── PageOptions.cs<br>
+│   ├── Config/<br>
+│   │   └── ConfigProvider.cs<br>
+│   ├── Context/<br>
+│   │   ├── ContextHolder.cs<br>
+│   │   ├── ContextOptions.cs<br>
+│   │   ├── DbContext.cs<br>
+│   │   ├── TestContext.cs<br>
+│   │   └── WorkerContext.cs<br>
+│   ├── DB/<br>
+│   │   ├── DBType.cs<br>
+│   │   ├── IDBConnectionHolder.cs<br>
+│   │   ├── IDBLogicBase.cs<br>
+│   │   ├── MongoDBConnectionHolder.cs<br>
+│   │   ├── MySQLConnectionHolder.cs<br>
+│   │   └── PgConnectionHolder.cs<br>
+│   ├── Email/<br>
+│   │   └── EmailService.cs<br>
+│   ├── Mobile/<br>
+│   │   ├── AndroidAppPageBase.cs<br>
+│   │   ├── AppPageBase.cs<br>
+│   │   ├── AppPageOptions.cs<br>
+│   │   ├── Capabilities.cs<br>
+│   │   ├── IosAppPageBase.cs<br>
+│   │   └── Platform.cs<br>
+│   ├── Plugin/<br>
+│   │   └── ITestplugin.cs<br>
+│   │   └── IWorkerPlugin.cs<br>
+│   │   └── LoggingTestPlugin.cs<br>
+│   │   └── LoggingWorkerPlugin.cs<br>
+│   ├── Utils/<br>
+│       └── Utils.cs<br>
+├── Tests/<br>
+│   ├── Browser/<br>
+│   │   └── GoogleMapsTests.cs<br>
+│   ├── Mobile/<br>
+│   │   ├── App/<br>
+│   │   │   └── YourAppTests.cs<br>
+│   │   └── Browser/<br>
+│   │       └── GoogleMapsMobileBrowserTests.cs<br>
+│   ├── Resources/<br>
+│   │   ├── playwright-traces/<br>
+│   │   └── screenshots/<br>
+│   │       └── .gitkeep<br>
+│   ├── BaseTest.cs<br>
+│   └── Tests.csproj<br>
+├── browserOptions.json<br>
+├── contextOptions.json<br>
+├── storageState.json<br>
+├── .env<br>
+├── .env.secret.gpg<br>
+├── .gitignore<br>
+├── AutomationTestsCsharp.sln<br>
+└── README.md<br>
 
 
 
