@@ -1,24 +1,155 @@
 name: Playwright Tests
+
 on:
   push:
     branches: main
   pull_request:
     branches: main
+
 jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    env:
+      ENABLE_ENV_INJECTION: true 
+      NAME: samer-framework-dotnet
+      VERSION: 0.0.1
+      LOG_FORMAT: pretty
+      LOG_LEVEL: debug
+      LOG_COLORIZE: true
+      BROWSER: chromium
+      WEBSITE_BASE_URL: https://www.google.com/maps/?hl=en
+      API_BASE_URL: https://api.playwright.dev
+      PG_DB_HOST: 127.0.0.1
+      PG_DB_PORT: 5433
+      PG_DB_NAME: template_db
+      MYSQL_DB_HOST: 127.0.0.1
+      MYSQL_DB_PORT: 3307
+      MYSQL_DB_NAME: template_db
+      MONGO_DB_HOST: 127.0.0.1
+      MONGO_DB_PORT: 27018
+      MONGO_DB_NAME: template_db
+      EMAIL_SMTP_HOST: smtp.office365.com
+      EMAIL_SMTP_PORT: 587
+      ANDROID_DEVICE_NAME: 6b5ac067
+      ANDROID_PLATFORM_VERSION: 13.0
+      ANDROID_APP_PACKAGE: 
+      ANDROID_APP_PATH: 
+      ANDROID_DEFAULT_ACTIVITY: 
+      AUTO_GRANT_PERMISSION: true
+      NO_RESET: true
+      IOS_DEVICE_NAME: iPhone 14 Pro Max
+      IOS_PLATFORM_VERSION: 16.4
+      IOS_DEVICE_UDID: C20232A3-DAB6-4659-8D33-870CAD38C15D
+      IOS_BUNDLE_ID: 
+      IOS_APP_PATH: 
+      AUTO_ACCEPT_ALERTS: true
+      USE_SAUCE_LABS: true
+      APPIUM_BASE_URL: wd/hub
+      APPIUM_HOST: ondemand.eu-central-1.saucelabs.com
+      APPIUM_PORT: 443
+
     steps:
     - uses: actions/checkout@v4
+    
     - name: Setup dotnet
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
     - name: Decrypting a secret file
-      run: gpg --passphrase=1234567890 --batch --no-tty --yes --output .env.secret --decrypt .env.secret.gpg
+      run: gpg --passphrase=${{ secrets.GPG_PASSPHRASE }} --batch --no-tty --yes --output .env.secret --decrypt .env.secret.gpg
+  
+    - name: Inject parameters into .env
+      if: env.ENABLE_ENV_INJECTION == 'true'
+      run: |
+        echo "NAME=${{ env.NAME }}" >> .env
+        echo "VERSION=${{ env.VERSION }}" >> .env
+        echo "LOG_FORMAT=${{ env.LOG_FORMAT }}" >> .env
+        echo "LOG_LEVEL=${{ env.LOG_LEVEL }}" >> .env
+        echo "LOG_COLORIZE=${{ env.LOG_COLORIZE }}" >> .env
+        echo "WEBSITE_BASE_URL=${{ env.WEBSITE_BASE_URL }}" >> .env
+        echo "API_BASE_URL=${{ env.API_BASE_URL }}" >> .env
+        echo "PG_DB_HOST=${{ env.PG_DB_HOST }}" >> .env
+        echo "PG_DB_PORT=${{ env.PG_DB_PORT }}" >> .env
+        echo "PG_DB_NAME=${{ env.PG_DB_NAME }}" >> .env
+        echo "MYSQL_DB_HOST=${{ env.MYSQL_DB_HOST }}" >> .env
+        echo "MYSQL_DB_PORT=${{ env.MYSQL_DB_PORT }}" >> .env
+        echo "MYSQL_DB_NAME=${{ env.MYSQL_DB_NAME }}" >> .env
+        echo "MONGO_DB_HOST=${{ env.MONGO_DB_HOST }}" >> .env
+        echo "MONGO_DB_PORT=${{ env.MONGO_DB_PORT }}" >> .env
+        echo "MONGO_DB_NAME=${{ env.MONGO_DB_NAME }}" >> .env
+        echo "EMAIL_SMTP_HOST=${{ env.EMAIL_SMTP_HOST }}" >> .env
+        echo "EMAIL_SMTP_PORT=${{ env.EMAIL_SMTP_PORT }}" >> .env
+        echo "ANDROID_DEVICE_NAME=${{ env.ANDROID_DEVICE_NAME }}" >> .env
+        echo "ANDROID_PLATFORM_VERSION=${{ env.ANDROID_PLATFORM_VERSION }}" >> .env
+        echo "ANDROID_APP_PACKAGE=${{ env.ANDROID_APP_PACKAGE }}" >> .env
+        echo "ANDROID_APP_PATH=${{ env.ANDROID_APP_PATH }}" >> .env
+        echo "ANDROID_DEFAULT_ACTIVITY=${{ env.ANDROID_DEFAULT_ACTIVITY }}" >> .env
+        echo "AUTO_GRANT_PERMISSION=${{ env.AUTO_GRANT_PERMISSION }}" >> .env
+        echo "NO_RESET=${{ env.NO_RESET }}" >> .env
+        echo "IOS_DEVICE_NAME=${{ env.IOS_DEVICE_NAME }}" >> .env
+        echo "IOS_PLATFORM_VERSION=${{ env.IOS_PLATFORM_VERSION }}" >> .env
+        echo "IOS_DEVICE_UDID=${{ env.IOS_DEVICE_UDID }}" >> .env
+        echo "IOS_BUNDLE_ID=${{ env.IOS_BUNDLE_ID }}" >> .env
+        echo "IOS_APP_PATH=${{ env.IOS_APP_PATH }}" >> .env
+        echo "AUTO_ACCEPT_ALERTS=${{ env.AUTO_ACCEPT_ALERTS }}" >> .env
+        echo "USE_SAUCE_LABS=${{ env.USE_SAUCE_LABS }}" >> .env
+        echo "APPIUM_BASE_URL=${{ env.APPIUM_BASE_URL }}" >> .env
+        echo "APPIUM_HOST=${{ env.APPIUM_HOST }}" >> .env
+        echo "APPIUM_PORT=${{ env.APPIUM_PORT }}" >> .env
+
     - name: Build dotnet
       run: dotnet build
+      
     - name: Ensure browsers are installed
       run: pwsh Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps
-    - name: Run your tests
-      run: dotnet test --collect:"XPlat Code Coverage" --results-directory Tests/Resources/code
+      
+    - name: Run tests with Playwright
+      env:
+        BROWSER: ${{ matrix.browser }}  # Set the BROWSER environment variable dynamically
+      run: |
+        echo "BROWSER=${{ matrix.browser }}" >> .env 
+        dotnet test --collect:"XPlat Code Coverage" --results-directory Tests/Resources/code
+
+    - name: Upload code coverage reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage
+        path: Tests/Resources/code/**/coverage.cobertura.xml
+
+    - name: Check if screenshots exist
+      id: check-screenshots
+      run: |
+        if ls Tests/Resources/screenshots/* 1> /dev/null 2>&1; then
+          echo "SCREENSHOTS_EXIST=true" >> $GITHUB_ENV
+        else
+          echo "SCREENSHOTS_EXIST=false" >> $GITHUB_ENV
+        fi
+
+    - name: Upload screenshots
+      if: steps.check-screenshots.outputs.SCREENSHOTS_EXIST == 'true'
+      uses: actions/upload-artifact@v3
+      with:
+        name: screenshots
+        path: Tests/Resources/screenshots
+
+    - name: Check if Playwright traces exist
+      id: check-traces
+      run: |
+        if ls Tests/Resources/playwright-traces/* 1> /dev/null 2>&1; then
+          echo "TRACES_EXIST=true" >> $GITHUB_ENV
+        else
+          echo "TRACES_EXIST=false" >> $GITHUB_ENV
+        fi
+
+    - name: Upload Playwright traces
+      if: steps.check-traces.outputs.TRACES_EXIST == 'true'
+      uses: actions/upload-artifact@v3
+      with:
+        name: playwright-traces
+        path: Tests/Resources/playwright-traces
