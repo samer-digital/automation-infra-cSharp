@@ -30,7 +30,6 @@ public static class ConfigProvider
     public static string LOG_LEVEL => Environment.GetEnvironmentVariable("LOG_LEVEL") ?? "info";
     
     public static string BROWSER => Environment.GetEnvironmentVariable("BROWSER") ?? "chromium";
-    public static bool HEADLESS => bool.Parse(Environment.GetEnvironmentVariable("HEADLESS") ?? "true");
     public static string WEBSITE_BASE_URL => Environment.GetEnvironmentVariable("WEBSITE_BASE_URL") ?? "";
     public static string? API_BASE_URL => Environment.GetEnvironmentVariable("API_BASE_URL");
 

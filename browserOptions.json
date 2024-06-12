@@ -1,5 +1,5 @@
 {
-  "Headless": false,
+  "Headless": true,
   "SlowMo": 50,
   "Args": ["--start-maximized"],
   "Timeout": 60000
