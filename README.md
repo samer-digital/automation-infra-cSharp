@@ -6,7 +6,7 @@ This project is a C# automation infrastructure using Playwright and NUnit for UI
 
 ## Project Structure
 
-Automation-Infra-Csharp/
+Automation-Infra-Csharp/ \r
 ├── .github/
 │   └── workflows/
 ├── Assets/
