@@ -19,6 +19,6 @@ jobs:
     - name: Build dotnet
       run: dotnet build
     - name: Ensure browsers are installed
-      run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+      run: pwsh Tests/bin/Debug/net8.0/playwright.ps1 install --with-deps
     - name: Run your tests
-      run: dotnet test --collect:"XPlat Code Coverage" --results-directory Tests/resources/code
+      run: dotnet test --collect:"XPlat Code Coverage" --results-directory Tests/Resources/code

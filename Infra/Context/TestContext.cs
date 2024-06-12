@@ -1,5 +1,6 @@
 using Serilog;
 using Microsoft.Playwright;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Manages test contexts, pages, tear-down actions, and capturing screenshots.
@@ -10,12 +11,7 @@ public class TestContext
     private readonly Dictionary<string, ContextHolder> _contextHolders;
     private readonly List<Func<TestContext, Task>> _tearDownActions;
     private readonly WorkerContext _workerContext;
-    
-    // public static Dictionary<string, ContextOptions> LoadContextOptions()
-    // {
-    //     var configContent = File.ReadAllText(filePath);
-    //     return JsonConvert.DeserializeObject<Dictionary<string, ContextOptions>>(configContent);
-    // }
+    private static Dictionary<string, ContextOptions>? _contextOptions;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TestContext"/> class.
@@ -33,6 +29,46 @@ public class TestContext
     }
 
     /// <summary>
+    /// Loads the context options from a JSON file.
+    /// </summary>
+    /// <returns>A dictionary of context options.</returns>
+    private static Dictionary<string, ContextOptions>? LoadContextOptions()
+    {
+        if (_contextOptions == null)
+        {
+            string contextOptionsFile = Path.Combine(Directory.GetCurrentDirectory(), @"../../../../contextOptions.json");
+            string contextOptionsPath = Path.GetFullPath(contextOptionsFile);
+            var contextOptions = File.ReadAllText(contextOptionsPath);
+            _contextOptions = JsonConvert.DeserializeObject<Dictionary<string, ContextOptions>>(contextOptions);
+        }
+        return _contextOptions;
+    }
+
+    /// <summary>
+    /// Creates browser context options from the context options.
+    /// </summary>
+    /// <param name="contextOptions">The context options.</param>
+    /// <returns>Browser new context options.</returns>
+    private BrowserNewContextOptions CreateBrowserContextOptions(ContextOptions contextOptions)
+    {
+        var storageStatePath = Path.Combine(Directory.GetCurrentDirectory(), @"../../../Resources/storageState.json");
+        return new BrowserNewContextOptions
+        {
+            ViewportSize = contextOptions.Viewport != null ? new ViewportSize { Width = contextOptions.Viewport.Width, Height = contextOptions.Viewport.Height } : ViewportSize.NoViewport,
+            UserAgent = contextOptions.UserAgent,
+            Locale = contextOptions.Locale,
+            TimezoneId = contextOptions.TimezoneId,
+            Geolocation = contextOptions.Geolocation != null ? new Geolocation { Latitude = contextOptions.Geolocation.Latitude, Longitude = contextOptions.Geolocation.Longitude } : null,
+            IgnoreHTTPSErrors = contextOptions.IgnoreHTTPSErrors,
+            JavaScriptEnabled = contextOptions.JavaScriptEnabled,
+            DeviceScaleFactor = contextOptions.DeviceScaleFactor > 0 ? contextOptions.DeviceScaleFactor : null,
+            IsMobile = contextOptions.IsMobile,
+            HasTouch = contextOptions.HasTouch,
+            StorageStatePath = File.Exists(storageStatePath) ? storageStatePath : null
+        };
+    }
+
+    /// <summary>
     /// Gets the context holder for the specified context key.
     /// </summary>
     /// <param name="contextKey">The context key.</param>
@@ -41,14 +77,33 @@ public class TestContext
     {
         if (!_contextHolders.ContainsKey(contextKey))
         {
+            _contextOptions = LoadContextOptions();
+            if (_contextOptions == null || !_contextOptions.ContainsKey(contextKey))
+            {
+                throw new KeyNotFoundException($"Context key '{contextKey}' not found in context options.");
+            }
+            var contextOptions = _contextOptions[contextKey];
+            var contextOptionsDictionary = CreateBrowserContextOptions(contextOptions);
+
             var contextHolder = new ContextHolder(
                 async () =>
                 {
                     var browser = await _workerContext.GetBrowserAsync();
-                    return await browser.NewContextAsync(new BrowserNewContextOptions()
-                    { 
-                        ViewportSize = ViewportSize.NoViewport
-                    });
+                    var browserContext = await browser.NewContextAsync(contextOptionsDictionary);
+
+                    // Clear cookies and local storage
+                    await browserContext.ClearCookiesAsync();
+
+                    // Grant permissions
+                    if (contextOptions.Permissions != null)
+                    {
+                        foreach (var permission in contextOptions.Permissions)
+                        {
+                            await browserContext.GrantPermissionsAsync([permission]);
+                        }
+                    }
+
+                    return browserContext;
                 },
                 async () => await _workerContext.GetApiRequestContextAsync(),
                 _logger

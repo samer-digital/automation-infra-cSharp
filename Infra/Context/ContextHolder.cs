@@ -86,7 +86,7 @@ public class ContextHolder : IDisposable
         var page = await GetPageAsync();
         if (page != null)
         {
-            var screenshotPath = Path.Combine(AppContext.BaseDirectory, @"../../../resources/screenshots", $"{prefix}_{testName}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            var screenshotPath = Path.Combine(AppContext.BaseDirectory, @"../../../Resources/screenshots", $"{prefix}_{testName}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
             Directory.CreateDirectory(Path.GetDirectoryName(screenshotPath)!);
             await page.ScreenshotAsync(new PageScreenshotOptions { Path = screenshotPath });
             _logger.Information($"Screenshot saved to {screenshotPath}");

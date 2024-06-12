@@ -1,60 +1,59 @@
 {
-    "default": {
-      "viewport": {
-        "width": 1280,
-        "height": 720
-      },
-      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-      "locale": "en-US",
-      "timezoneId": "America/New_York",
-      "geolocation": {
-        "latitude": 40.7128,
-        "longitude": -74.0060
-      },
-      "permissions": [
-        "geolocation"
-      ],
-      "ignoreHTTPSErrors": true,
-      "javaScriptEnabled": true
+  "default": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "locale": "en-US",
+    "timezoneId": "America/New_York",
+    "geolocation": {
+      "latitude": 37.7749,
+      "longitude": -122.4194
     },
-    "mobile": {
-      "viewport": {
-        "width": 375,
-        "height": 667
-      },
-      "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
-      "deviceScaleFactor": 2,
-      "isMobile": true,
-      "hasTouch": true,
-      "defaultBrowserType": "webkit",
-      "permissions": [
-        "geolocation"
-      ],
-      "geolocation": {
-        "latitude": 37.7749,
-        "longitude": -122.4194
-      },
-      "locale": "en-US",
-      "timezoneId": "America/Los_Angeles"
+    "permissions": [
+      "geolocation"
+    ],
+    "ignoreHTTPSErrors": true,
+    "javaScriptEnabled": true
+  },
+  "mobile": {
+    "viewport": {
+      "width": 375,
+      "height": 667
     },
-    "tablet": {
-      "viewport": {
-        "width": 768,
-        "height": 1024
-      },
-      "userAgent": "Mozilla/5.0 (iPad; CPU OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
-      "deviceScaleFactor": 2,
-      "isMobile": true,
-      "hasTouch": true,
-      "defaultBrowserType": "webkit",
-      "permissions": [
-        "geolocation"
-      ],
-      "geolocation": {
-        "latitude": 34.0522,
-        "longitude": -118.2437
-      },
-      "locale": "en-US",
-      "timezoneId": "America/Los_Angeles"
-    }
+    "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
+    "deviceScaleFactor": 2,
+    "isMobile": true,
+    "hasTouch": true,
+    "ignoreHTTPSErrors": true,
+    "javaScriptEnabled": true,
+    "defaultBrowserType": "webkit",
+    "permissions": [
+      "geolocation",
+      "notifications"
+    ],
+    "geolocation": {
+      "latitude": 37.7749,
+      "longitude": -122.4194
+    },
+    "locale": "en-US",
+    "timezoneId": "America/Los_Angeles"
+  },
+  "tablet": {
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "userAgent": "Mozilla/5.0 (iPad; CPU OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1",
+    "deviceScaleFactor": 2,
+    "isMobile": true,
+    "hasTouch": true,
+    "defaultBrowserType": "webkit",
+    "permissions": [
+      "geolocation"
+    ],
+    "geolocation": {
+      "latitude": 34.0522,
+      "longitude": -118.2437
+    },
+    "locale": "en-US",
+    "timezoneId": "America/Los_Angeles"
   }
+}

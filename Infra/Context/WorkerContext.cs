@@ -27,9 +27,7 @@ public class WorkerContext
     /// <returns>The browser launch options.</returns>
     public static BrowserTypeLaunchOptions LoadBrowserOptions()
     {
-        string currentDirectory = Directory.GetCurrentDirectory();
-        string relativePathToConfigFile = @"../../../../browserOptions.json";
-        string filePath = Path.Combine(currentDirectory, relativePathToConfigFile);
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), @"../../../../browserOptions.json");
         string configFilePath = Path.GetFullPath(filePath);
         var configContent = File.ReadAllText(configFilePath);
         var options = JsonConvert.DeserializeObject<BrowserOptions>(configContent)!;

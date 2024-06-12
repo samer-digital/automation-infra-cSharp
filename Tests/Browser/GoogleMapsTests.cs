@@ -1,4 +1,4 @@
-namespace PlaywrightTests;
+namespace GoogleMapsBrowser;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture, Description("Google maps tests")]

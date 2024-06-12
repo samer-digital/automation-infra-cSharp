@@ -16,6 +16,10 @@ public abstract class PageBase
 
     public string BaseUrl => ConfigProvider.WEBSITE_BASE_URL;
 
+    public async Task KeyboardPress(string buttonName) {
+        await _page.Keyboard.PressAsync(buttonName);
+    }
+
     public async Task NavigateAsync()
     {
         await _page.GotoAsync(PageUrl);

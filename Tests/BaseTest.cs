@@ -93,7 +93,7 @@ public abstract class BaseTest : PageTest
         await Context.Tracing.StopAsync(new()
         {
             Path = failed ? Path.Combine(
-                AppContext.BaseDirectory, @"../../../resources/playwright-traces",
+                AppContext.BaseDirectory, @"../../../Resources/playwright-traces",
                 $"{NUnit.Framework.TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.zip"
             ) : null,
         });

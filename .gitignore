@@ -5,6 +5,10 @@ obj/
 # Secrets
 .env.secret
 
+playwright-traces/
+screenshots/
+resources/code/
+
 # User-specific files
 *.rsuser
 *.suo

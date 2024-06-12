@@ -6,6 +6,7 @@ public class GoogleMapsPage : PageBase
     private ILocator _searchInputLocator;
     private ILocator _searchButton;
     private ILocator _directionButton;
+    private ILocator _currentLocationBtn;
 
     public GoogleMapsPage(IPage page) : base(page)
     {
@@ -13,6 +14,7 @@ public class GoogleMapsPage : PageBase
         _searchInputLocator = page.Locator(".searchboxinput");
         _searchButton = page.Locator("#searchbox-searchbutton");
         _directionButton = page.Locator(".hArJGc");
+        _currentLocationBtn = page.Locator(".sVuEFc");
     }
 
 
@@ -25,7 +27,7 @@ public class GoogleMapsPage : PageBase
         return new SearchResultsComponent(this);
     }
 
-    public MenuComponent GetMenuComponent() 
+    public MenuComponent GetMenuComponent()
     {
         return new MenuComponent(this);
     }
@@ -33,7 +35,6 @@ public class GoogleMapsPage : PageBase
     public async Task FillSearchAsync(string searchTerm)
     {
         await _searchInputLocator.FillAsync(searchTerm);
-        await Page.WaitForTimeoutAsync(3000);
         await _searchButton.ClickAsync();
     }
 
@@ -41,10 +42,15 @@ public class GoogleMapsPage : PageBase
     {
         await _menuOpen.ClickAsync();
     }
- 
+
     public async Task ClickDirectionBtn()
     {
         await _directionButton.ClickAsync();
+    }
+
+    public async Task ClickOnGetCurrentLocationBtn()
+    {
+        await _currentLocationBtn.ClickAsync();
     }
 
     public async Task ClickSearchButton()
