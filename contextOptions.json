@@ -26,8 +26,7 @@
     "javaScriptEnabled": true,
     "defaultBrowserType": "webkit",
     "permissions": [
-      "geolocation",
-      "notifications"
+      "geolocation"
     ],
     "geolocation": {
       "latitude": 37.7749,

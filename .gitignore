@@ -7,7 +7,7 @@ obj/
 
 playwright-traces/
 screenshots/
-resources/code/
+code/
 
 # User-specific files
 *.rsuser

@@ -11,6 +11,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
 
@@ -117,6 +118,7 @@ jobs:
         dotnet test --collect:"XPlat Code Coverage" --results-directory Tests/Resources/code
 
     - name: Upload code coverage reports
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: code-coverage

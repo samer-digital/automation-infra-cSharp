@@ -35,7 +35,7 @@ public class WorkerContext
         {
             Headless = options.Headless,
             SlowMo = options.SlowMo,
-            Args = ConfigProvider.BROWSER == "webkit" ? options.Args : null,
+            Args = ConfigProvider.BROWSER != "webkit" ? options.Args : null,
             Timeout = options.Timeout
         };
     }
