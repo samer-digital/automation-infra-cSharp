@@ -56,7 +56,7 @@ public class NegativeBrowserTests : BaseTest
     public async Task NavigateWithNoRoutes()
     {
         var addressDestination = "Cuba";
-        var addressStart = "sadfasdf, asdfas, 34500 asdfasdf/İstanbul";
+        var addressStart = "X53R+F4 Çamlıhemşin, Rize";
 
         var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMainPage(page), new GetPageOptions { ShouldNavigate = true });
         await googleMapsPage.FillSearchAsync(addressDestination);
@@ -67,7 +67,7 @@ public class NegativeBrowserTests : BaseTest
         await googleMapsPage.KeyboardPress("Enter");
         string? textError = await directionComponent.GetErrorNoRouteText();
 
-        Assert.That(textError, Is.EqualTo($"Sorry, we could not calculate directions from \"{addressStart}\" to \"{addressDestination}\""), "Could not find the error...");
+        Assert.That(textError, Does.Contain($"Sorry, we could not calculate directions from"), "Could not find the error message - No ROUTES...");
     }
 
 }

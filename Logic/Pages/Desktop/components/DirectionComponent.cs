@@ -33,7 +33,6 @@ public class DirectionComponent : ComponentBase
 
     public async Task<string?> GetErrorNoRouteText()
     {
-        // await ErrorNoRoutes.WaitForAsync();
         return await ErrorNoRoutes.TextContentAsync();
     }
 

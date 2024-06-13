@@ -24,7 +24,7 @@ jobs:
       LOG_COLORIZE: true
       BROWSER: chromium
       WEBSITE_BASE_URL: https://www.google.com/maps/?hl=en
-      API_BASE_URL: https://api.playwright.dev
+      API_BASE_URL: https://maps.googleapis.com/maps/api/
       PG_DB_HOST: 127.0.0.1
       PG_DB_PORT: 5433
       PG_DB_NAME: template_db

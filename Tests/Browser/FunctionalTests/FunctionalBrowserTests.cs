@@ -6,7 +6,7 @@ public class FunctionalBrowserTests : BaseTest
 {
 
     [Test, Description("Test - search 4 different addresses and validate the results.")]
-    [TestCase("X53R+F4 Çamlıhemşin, Rize")] // Can check also the image url per address
+    [TestCase("X53R+F4 Çamlıhemşin, Rize")]
     [TestCase("XV2V+9C Lod, Israel")]
     [TestCase("G95C+PP Berlin, Germany")]
     [TestCase("3MX4+X7 Rothenthurm, Switzerland")]

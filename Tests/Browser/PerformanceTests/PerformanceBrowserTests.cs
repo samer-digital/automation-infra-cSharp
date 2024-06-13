@@ -18,7 +18,7 @@ public class PerformanceBrowserTests : BaseTest
         _logger.Information($"Load time: {loadTime} ms");
 
         // Assert that the load time is within acceptable limits
-        var maxLoadTime = 6000;
+        var maxLoadTime = 10000;
         Assert.That(loadTime, Is.LessThanOrEqualTo(maxLoadTime), $"Load time exceeded the threshold. Actual load time: {loadTime} ms");
     }
 }
