@@ -122,33 +122,15 @@ jobs:
         name: code-coverage
         path: Tests/Resources/code/**/coverage.cobertura.xml
 
-    - name: Check if screenshots exist
-      id: check-screenshots
-      run: |
-        if ls Tests/Resources/screenshots/* 1> /dev/null 2>&1; then
-          echo "SCREENSHOTS_EXIST=true" >> $GITHUB_ENV
-        else
-          echo "SCREENSHOTS_EXIST=false" >> $GITHUB_ENV
-        fi
-
     - name: Upload screenshots
-      if: steps.check-screenshots.outputs.SCREENSHOTS_EXIST == 'true'
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: screenshots
         path: Tests/Resources/screenshots
 
-    - name: Check if Playwright traces exist
-      id: check-traces
-      run: |
-        if ls Tests/Resources/playwright-traces/* 1> /dev/null 2>&1; then
-          echo "TRACES_EXIST=true" >> $GITHUB_ENV
-        else
-          echo "TRACES_EXIST=false" >> $GITHUB_ENV
-        fi
-
     - name: Upload Playwright traces
-      if: steps.check-traces.outputs.TRACES_EXIST == 'true'
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: playwright-traces

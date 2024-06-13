@@ -32,10 +32,14 @@ public class GoogleMapsPage : PageBase
         return new MenuComponent(this);
     }
 
+    public DirectionComponent GetDirectionComponent()
+    {
+        return new DirectionComponent(this);
+    }
+
     public async Task FillSearchAsync(string searchTerm)
     {
         await _searchInputLocator.FillAsync(searchTerm);
-        await _searchButton.ClickAsync();
     }
 
     public async Task ClickToOpenMenu()

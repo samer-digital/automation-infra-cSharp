@@ -7,6 +7,8 @@ public class SearchResultsComponent : ComponentBase
 
     private ILocator _cantFindLocationText => _page.Locator("div[class='Q2vNVc']");
     private ILocator _locationTitle => _page.Locator("h1[class='DUwDvf lfPIob']");
+
+    
     public async Task<string?> GetLocationTitle()
     {
         return await _locationTitle.TextContentAsync();
