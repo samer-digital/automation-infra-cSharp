@@ -15,43 +15,22 @@ Automation-Infra-Csharp/<br>
 │       └── GoogleMaps6-119-1.ipa<br>
 ├── Infra/<br>
 │   ├── Api/<br>
-│   │   ├── ApiOptions.cs<br>
-│   │   └── ApiService.cs<br>
+│   │   └── ...<br>
 │   ├── Browser/<br>
-│   │   ├── BrowserOptions.cs<br>
-│   │   ├── ComponentBase.cs<br>
-│   │   ├── PageBase.cs<br>
-│   │   └── PageOptions.cs<br>
+│   │   └── ...<br>
 │   ├── Config/<br>
-│   │   └── ConfigProvider.cs<br>
+│   │   └── ...<br>
 │   ├── Context/<br>
-│   │   ├── ContextHolder.cs<br>
-│   │   ├── ContextOptions.cs<br>
-│   │   ├── DbContext.cs<br>
-│   │   ├── TestContext.cs<br>
-│   │   └── WorkerContext.cs<br>
+│   │   └── ...<br>
 │   ├── DB/<br>
-│   │   ├── DBType.cs<br>
-│   │   ├── IDBConnectionHolder.cs<br>
-│   │   ├── IDBLogicBase.cs<br>
-│   │   ├── MongoDBConnectionHolder.cs<br>
-│   │   ├── MySQLConnectionHolder.cs<br>
-│   │   └── PgConnectionHolder.cs<br>
-│   ├── Email/<br>
-│   │   └── EmailService.cs<br>
+│   │   └── ...<br>
 │   ├── Mobile/<br>
-│   │   ├── AndroidAppPageBase.cs<br>
-│   │   ├── AppPageBase.cs<br>
-│   │   ├── AppPageOptions.cs<br>
-│   │   ├── Capabilities.cs<br>
-│   │   ├── IosAppPageBase.cs<br>
-│   │   └── Platform.cs<br>
-│   ├── Plugin/<br>
-│   ├── Utils/<br>
-│       └── Utils.cs<br>
+│   │   └── ...<br>
 ├── Infra/<br>
 │   ├── Api/<br>
+│   │   └── ...<br>
 │   ├── App/<br>
+│   │   └── ...<br>
 │   ├── DB/<br>
 │   │   └── MongoDB<br>
 │   │   └── MySQL<br>
@@ -62,21 +41,15 @@ Automation-Infra-Csharp/<br>
 ├── Tests/<br>
 │   ├── Api/<br>
 │   ├── Browser/<br>
-│   │   └── FunctionalTests<br>
-│   │   │    └── GoogleMapsTests.cs<br>
-│   │   └── NegativeTests<br>
-│   │   │    └── NegativeBrowserTests.cs<br>
-│   │   └── PerformanceTests<br>
-│   │        └── PerformanceBrowserTests.cs<br>
+│   │   └── ...<br>
 │   ├── Mobile/<br>
 │   │   ├── App/<br>
-│   │   │   └── AppTests.cs<br>
+│   │       └── ...<br>
 │   │   └── Browser/<br>
-│   │       └── MobileBrowserTests.cs<br>
+│   │       └── ...<br>
 │   ├── Resources/<br>
 │   │   ├── playwright-traces/<br>
 │   │   └── screenshots/<br>
-│   │       └── .gitkeep<br>
 │   ├── BaseTest.cs<br>
 │   └── Tests.csproj<br>
 ├── browserOptions.json<br>
