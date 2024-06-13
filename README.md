@@ -4,65 +4,6 @@
 
 This project is a C# automation infrastructure using Playwright and NUnit for UI testing. It supports testing web applications and mobile applications using Playwright and Appium. The project structure is designed for scalability and maintainability, with a clear separation of concerns.
 
-## Project Structure
-
-Automation-Infra-Csharp/<br>
-├── .github/<br>
-│   └── workflows/<br>
-├── Assets/<br>
-│   └── Apps/<br>
-│       ├── google-maps.apk<br>
-│       └── GoogleMaps6-119-1.ipa<br>
-├── Infra/<br>
-│   ├── Api/<br>
-│   │   └── ...<br>
-│   ├── Browser/<br>
-│   │   └── ...<br>
-│   ├── Config/<br>
-│   │   └── ...<br>
-│   ├── Context/<br>
-│   │   └── ...<br>
-│   ├── DB/<br>
-│   │   └── ...<br>
-│   ├── Mobile/<br>
-│   │   └── ...<br>
-├── Infra/<br>
-│   ├── Api/<br>
-│   │   └── ...<br>
-│   ├── App/<br>
-│   │   └── ...<br>
-│   ├── DB/<br>
-│   │   └── MongoDB<br>
-│   │   └── MySQL<br>
-│   │   └── PG<br>
-│   ├── Pages/<br>
-│   │   └── Desktop<br>
-│   │   └── Mobile<br>
-├── Tests/<br>
-│   ├── Api/<br>
-│   ├── Browser/<br>
-│   │   └── ...<br>
-│   ├── Mobile/<br>
-│   │   ├── App/<br>
-│   │       └── ...<br>
-│   │   └── Browser/<br>
-│   │       └── ...<br>
-│   ├── Resources/<br>
-│   │   ├── playwright-traces/<br>
-│   │   └── screenshots/<br>
-│   ├── BaseTest.cs<br>
-│   └── Tests.csproj<br>
-├── browserOptions.json<br>
-├── contextOptions.json<br>
-├── storageState.json<br>
-├── .env<br>
-├── .env.secret.gpg<br>
-├── .gitignore<br>
-├── AutomationTestsCsharp.sln<br>
-└── README.md<br>
-
-
-
 ## Getting Started
 
 ### Prerequisites
