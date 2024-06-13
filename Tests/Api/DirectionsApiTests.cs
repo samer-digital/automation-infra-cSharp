@@ -11,8 +11,8 @@ public class GoogleMapsApiTests : BaseTest
         _googleMapsApi = await _testContext.GetApiAsync(apiContext => new GoogleMapsApi(apiContext));
     }
 
-    [Test]
-    public async Task TestGoogleMapsDirections()
+    [Test, Description("Test API with invalid KEY")]
+    public async Task TestGoogleMapsDirectionsInvalidKey()
     {
         string apiKey = "api_key";
         string origin = "New York, NY";

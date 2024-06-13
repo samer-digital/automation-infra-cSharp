@@ -1,4 +1,4 @@
-public class GetAppPageOptions
+public class AppPageOptions
 {
     public string? ContextKey { get; set; }
     public bool ShouldRestartDriver { get; set; }

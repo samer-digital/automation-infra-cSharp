@@ -5,6 +5,8 @@ using OpenQA.Selenium.Support.UI;
 public abstract class AppPageBase
 {
     private AppiumDriver? _driver;
+
+    private WebDriverWait? _wait;
     private bool _isInitialized = false;
 
     protected AppPageBase() { }
@@ -16,6 +18,7 @@ public abstract class AppPageBase
             throw new InvalidOperationException("Init() should be called only once");
         }
         _driver = driver ?? throw new ArgumentNullException(nameof(driver));
+        _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10)); // Set in the config
         _isInitialized = true;
     }
 
@@ -122,12 +125,11 @@ public abstract class AppPageBase
 
 
 
-    public async Task<bool> WaitUntilElementDisplayed(string selector, int timeout)
+    public async Task<bool> WaitUntilElementDisplayed(By locator, int timeout)
     {
         try
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromMilliseconds(timeout));
-            await Task.Run(() => wait.Until(d => d.FindElement(MobileBy.CssSelector(selector)).Displayed));
+            await Task.Run(() => _wait!.Until(d => d.FindElement(locator).Displayed));
             return true;
         }
         catch (WebDriverTimeoutException)
@@ -136,12 +138,11 @@ public abstract class AppPageBase
         }
     }
 
-    public async Task<bool> WaitForElementNotDisplayed(string selector, int timeout)
+    public async Task<bool> WaitForElementNotDisplayed(By locator, int timeout)
     {
         try
         {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromMilliseconds(timeout));
-            await Task.Run(() => wait.Until(d => !d.FindElement(MobileBy.CssSelector(selector)).Displayed));
+            await Task.Run(() => _wait!.Until(d => !d.FindElement(locator).Displayed));
             return true;
         }
         catch (WebDriverTimeoutException)
@@ -150,5 +151,7 @@ public abstract class AppPageBase
         }
     }
 
+    public string? AppId => ConfigProvider.ANDROID_APP_PACKAGE;
+    public string? BundleId => ConfigProvider.IOS_BUNDLE_ID;
     public abstract PlatformName platform { get; }
 }

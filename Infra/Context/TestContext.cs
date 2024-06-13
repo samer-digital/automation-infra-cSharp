@@ -153,6 +153,27 @@ public class TestContext
         return apiClassFactory(apiContext);
     }
 
+    public async Task<T> GetAppPageAsync<T>(Func<T> appPageClassFactory, AppPageOptions? options = null) where T : AppPageBase, new()
+    {
+        options ??= new AppPageOptions { ContextKey = "default", ShouldRestartDriver = false };
+        options.ContextKey ??= "default";
+
+        var contextHolder = await GetContextAsync(options.ContextKey);
+        var typedAppPage = appPageClassFactory();
+        var capabilities = CapabilitiesProvider.GetCapabilitiesForPage(typedAppPage, options);
+        var driver = contextHolder.GetDriverAsync(capabilities, typedAppPage.platform);
+
+        typedAppPage.Init(driver);
+
+        if (options.ShouldRestartDriver)
+        {
+            driver.TerminateApp(typedAppPage.AppId);
+            driver.ActivateApp(typedAppPage.BundleId);
+        }
+
+        return typedAppPage;
+    }
+
     /// <summary>
     /// Adds a tear-down action to be executed after the test.
     /// </summary>

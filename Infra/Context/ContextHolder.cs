@@ -1,11 +1,16 @@
 using Microsoft.Playwright;
+using OpenQA.Selenium.Appium;
 using Serilog;
+using OpenQA.Selenium.Appium.Android;
+using OpenQA.Selenium.Appium.iOS;
 
 /// <summary>
 /// Manages browser contexts, API contexts, and captures screenshots.
 /// </summary>
 public class ContextHolder : IDisposable
 {
+    private AppiumDriver? _driver;
+
     private IBrowserContext? _browserContext;
     private IAPIRequestContext? _apiContext;
 
@@ -72,6 +77,20 @@ public class ContextHolder : IDisposable
         return browserContext.Pages[0];
     }
 
+    public AppiumDriver GetDriverAsync(AppiumOptions options, PlatformName platformName)
+    {
+        if (_driver == null)
+        {
+            var url = new Uri($"{ConfigProvider.APPIUM_HOST}:{ConfigProvider.APPIUM_PORT}/{ConfigProvider.APPIUM_BASE_URL}");
+            if (platformName.Equals(PlatformName.ANDROID)) {
+                _driver = new AndroidDriver(url, options);
+            } else {
+                _driver = new IOSDriver(url, options);
+            }
+        }
+        return _driver;
+    }
+
     /// <summary>
     /// Gets the API context asynchronously.
     /// </summary>
@@ -126,6 +145,9 @@ public class ContextHolder : IDisposable
             await _apiContext.DisposeAsync();
         }
         _apiContext = null;
+
+        _driver?.Dispose(); // Should add plugin for end session and update status in sauce labs, screenshots.
+        _driver = null;
     }
 
     /// <summary>

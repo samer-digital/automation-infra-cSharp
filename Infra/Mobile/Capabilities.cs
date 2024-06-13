@@ -1,109 +1,96 @@
-public class CommonCapabilities
-{
-    public string? PlatformVersion { get; set; }
-    public string? AutomationName { get; set; }
-    public string? App { get; set; }
-    public string? DeviceName { get; set; }
-    public DeviceOrientation? DeviceOrientation { get; set; }
-    public bool? NoReset { get; set; }
-}
+using OpenQA.Selenium.Appium;
 
-public class AndroidCapabilities : CommonCapabilities
+public static class CapabilitiesProvider
 {
-    public PlatformName PlatformName { get; set; } = PlatformName.ANDROID;
-    public string? AppPackage { get; set; }
-    public string? AppActivity { get; set; }
-    public bool? AutoGrantPermissions { get; set; }
-}
-
-public class IosCapabilities : CommonCapabilities
-{
-    public PlatformName PlatformName { get; set; } = PlatformName.IOS;
-    public string? Udid { get; set; }
-    public string? BundleId { get; set; }
-    public bool? AutoAcceptAlerts { get; set; }
-    public bool IncludeSafariInWebviews { get; set; }
-}
-
-public class Capabilities
-{
-    public AndroidCapabilities? Android { get; set; }
-    public IosCapabilities? Ios { get; set; }
-}
-
-public class AdditionalCapabilitiesForPage
-{
-    public string? DeviceName { get; set; }
-    public DeviceOrientation? DeviceOrientation { get; set; }
-    public string? PlatformVersion { get; set; }
-    public string? Udid { get; set; }
-    public string? TestName { get; set; }
-}
-
-public class CapabilityProvider
-{
-    public static Capabilities GetCapabilitiesForPage(AppPageBase appPage, AdditionalCapabilitiesForPage additionalCapabilities)
+    public static AppiumOptions GetCapabilitiesForPage(AppPageBase appPage, AppPageOptions appPageOptions)
     {
-        Capabilities capabilities = new Capabilities();
+        AppiumOptions options;
 
         switch (appPage.platform)
         {
             case PlatformName.ANDROID:
-                var androidCapabilities = new AndroidCapabilities
-                {
-                    PlatformVersion = additionalCapabilities.PlatformVersion ?? ConfigProvider.ANDROID_PLATFORM_VERSION,
-                    AutomationName = ConfigProvider.ANDROID_AUTOMATION_NAME,
-                    DeviceName = additionalCapabilities.DeviceName ?? ConfigProvider.ANDROID_DEVICE_NAME,
-                    AutoGrantPermissions = ConfigProvider.AUTO_GRANT_PERMISSION,
-                    App = appPage.AppPath,
-                    DeviceOrientation = additionalCapabilities.DeviceOrientation ?? DeviceOrientation.PORTRAIT,
-                    NoReset = ConfigProvider.NO_RESET
-                };
-
-                if (appPage is AndroidAppPageBase androidAppPage)
-                {
-                    androidCapabilities.AppPackage = androidAppPage.AndroidAppPackage;
-                    androidCapabilities.AppActivity = androidAppPage.AndroidAppActivity;
-                }
-
-                capabilities.Android = androidCapabilities;
+                options = GetAndroidCapabilities(appPage, appPageOptions);
                 break;
-
+                
             case PlatformName.IOS:
-                var iosCapabilities = new IosCapabilities
-                {
-                    PlatformVersion = additionalCapabilities.PlatformVersion ?? ConfigProvider.IOS_PLATFORM_VERSION,
-                    AutomationName = ConfigProvider.IOS_AUTOMATION_NAME,
-                    DeviceName = additionalCapabilities.DeviceName ?? ConfigProvider.IOS_DEVICE_NAME,
-                    AutoAcceptAlerts = ConfigProvider.AUTO_ACCEPT_ALERTS,
-                    NoReset = ConfigProvider.NO_RESET,
-                    App = appPage.AppPath,
-                    DeviceOrientation = additionalCapabilities.DeviceOrientation ?? DeviceOrientation.PORTRAIT
-                };
-
-                if (appPage is IosAppPageBase iosAppPage)
-                {
-                    iosCapabilities.BundleId = iosAppPage.IosBundleId;
-                }
-
-                if ((additionalCapabilities.Udid != null || ConfigProvider.IOS_DEVICE_UDID != null) && !ConfigProvider.USE_SAUCE_LABS)
-                {
-                    iosCapabilities.Udid = additionalCapabilities.Udid ?? ConfigProvider.IOS_DEVICE_UDID;
-                }
-
-                capabilities.Ios = iosCapabilities;
+                options = GetIosCapabilities(appPage, appPageOptions);
                 break;
-
+                
             default:
-                throw new ArgumentException("Unsupported platform type");
+                throw new ArgumentException("Unsupported platform type.");
         }
 
         if (ConfigProvider.USE_SAUCE_LABS)
         {
-            // Add Sauce Labs specific capabilities
-            // Assuming there is a dictionary or a similar property to hold these in capabilities
+            AddSauceLabsOptions(options, appPageOptions);
         }
 
-        return capabilities;
+        return options;
+    }
+
+    private static AppiumOptions GetAndroidCapabilities(AppPageBase appPage, AppPageOptions appPageOptions)
+    {
+        var options = new AppiumOptions
+        {
+            AutomationName = ConfigProvider.ANDROID_AUTOMATION_NAME,
+            PlatformName = "Android",
+            DeviceName = appPageOptions.DeviceName ?? ConfigProvider.ANDROID_DEVICE_NAME,
+            PlatformVersion = appPageOptions.PlatformVersion ?? ConfigProvider.ANDROID_PLATFORM_VERSION,
+            App = appPage.AppPath
+        };
+
+        options.AddAdditionalAppiumOption("autoGrantPermissions", ConfigProvider.AUTO_GRANT_PERMISSION);
+        options.AddAdditionalAppiumOption("deviceOrientation", appPageOptions.DeviceOrientation);
+        options.AddAdditionalAppiumOption("noReset", ConfigProvider.NO_RESET);
+
+        if (appPage is AndroidAppPageBase androidPage)
+        {
+            options.AddAdditionalAppiumOption("appium:appPackage", androidPage.AndroidAppPackage);
+            options.AddAdditionalAppiumOption("appium:appActivity", androidPage.AndroidAppActivity);
+        }
+
+        return options;
+    }
+
+    private static AppiumOptions GetIosCapabilities(AppPageBase appPage, AppPageOptions appPageOptions)
+    {
+        var options = new AppiumOptions
+        {
+            AutomationName = ConfigProvider.IOS_AUTOMATION_NAME,
+            PlatformName = "iOS",
+            DeviceName = appPageOptions.DeviceName ?? ConfigProvider.IOS_DEVICE_NAME,
+            PlatformVersion = appPageOptions.PlatformVersion ?? ConfigProvider.IOS_PLATFORM_VERSION,
+            App = appPage.AppPath
+        };
+
+        options.AddAdditionalAppiumOption("autoAcceptAlerts", ConfigProvider.AUTO_ACCEPT_ALERTS);
+        options.AddAdditionalAppiumOption("deviceOrientation", appPageOptions.DeviceOrientation);
+        options.AddAdditionalAppiumOption("noReset", ConfigProvider.NO_RESET);
+
+        if (appPage is IosAppPageBase iosPage)
+        {
+            options.AddAdditionalAppiumOption("appium:bundleId", iosPage.IosBundleId);
+            if (!string.IsNullOrEmpty(ConfigProvider.IOS_DEVICE_UDID) && !ConfigProvider.USE_SAUCE_LABS)
+            {
+                options.AddAdditionalAppiumOption("udid", appPageOptions.Udid ?? ConfigProvider.IOS_DEVICE_UDID);
+            }
+        }
+
+        return options;
+    }
+
+    private static void AddSauceLabsOptions(AppiumOptions options, AppPageOptions appPageOptions)
+    {
+        var sauceOptions = new Dictionary<string, object>
+        {
+            { "username", ConfigProvider.SAUCE_LABS_USERNAME! },
+            { "accessKey", ConfigProvider.SAUCE_LABS_ACCESS_KEY! },
+            { "build", ConfigProvider.SAUCE_LABS_BUILD_ID },
+            { "sessionCreationTimeout", ConfigProvider.SESSION_CREATION_CONNECTION },
+            { "cacheId", ConfigProvider.SAUCE_LAB_CACHE_ID },
+            { "appiumVersion", ConfigProvider.SAUCE_LAB_APPIUM_VERSION },
+            { "name", appPageOptions.TestName! }
+        };
+        options.AddAdditionalAppiumOption("sauce:options", sauceOptions);
     }
 }

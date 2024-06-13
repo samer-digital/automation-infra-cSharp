@@ -15,6 +15,7 @@ jobs:
       matrix:
         browser: [chromium, firefox, webkit]
 
+      # We can set those env in the CI to inject them but for now they are here :)
     env:
       ENABLE_ENV_INJECTION: true 
       NAME: samer-framework-dotnet

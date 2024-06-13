@@ -59,8 +59,6 @@ public static class ConfigProvider
     public static string APPIUM_HOST => Environment.GetEnvironmentVariable("APPIUM_HOST") ?? "localhost";
     public static string? APPIUM_BASE_URL => Environment.GetEnvironmentVariable("APPIUM_BASE_URL");
     public static int APPIUM_PORT => int.Parse(Environment.GetEnvironmentVariable("APPIUM_PORT") ?? "4723");
-    public static string APPIUM_PATH => Environment.GetEnvironmentVariable("APPIUM_PATH") ?? "/";
-
     public static string? ANDROID_DEVICE_NAME => Environment.GetEnvironmentVariable("ANDROID_DEVICE_NAME");
     public static string? ANDROID_PLATFORM_VERSION => Environment.GetEnvironmentVariable("ANDROID_PLATFORM_VERSION");
     public static string ANDROID_AUTOMATION_NAME => Environment.GetEnvironmentVariable("ANDROID_AUTOMATION_NAME") ?? "UiAutomator2";
