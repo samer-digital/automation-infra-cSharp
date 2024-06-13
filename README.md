@@ -171,7 +171,11 @@ Manages database connections and logic.
 
 ## CI Integration
 
-This project is integrated with GitHub Actions for continuous integration. The workflow file is located in .github/workflows. It runs tests automatically on each push and pull request to ensure the quality and stability of the codebase.
+This project leverages GitHub Actions for continuous integration (CI). The workflow configuration file is located in the .github/workflows directory. Our CI pipeline is designed to ensure the quality and stability of the codebase by performing the following tasks automatically on each push and pull request:
+
+- **Parallel Cross-Browser Testing**: Runs tests in parallel across multiple browsers (Chrome, Firefox, Webkit) to ensure compatibility and robustness.
+- **Failure Handling**: Captures screenshots and traces in case of test failures, providing detailed insights for debugging.
+- **Code Coverage Reporting**: Generates and attaches code coverage reports, offering comprehensive visibility into the test coverage of the codebase.
 
 ## Code Quality
 
