@@ -2,10 +2,21 @@ using Npgsql;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Provides logic for interacting with PostgreSQL user data.
+/// </summary>
 public class PgUserDBLogic : PgLogicBase
 {
+    /// <summary>
+    /// Gets the type of the database.
+    /// </summary>
     public override DBType DbType => DBType.PG;
 
+    /// <summary>
+    /// Retrieves a list of users by their first name from the PostgreSQL database.
+    /// </summary>
+    /// <param name="firstName">The first name to search for.</param>
+    /// <returns>A list of users with the specified first name.</returns>
     public async Task<List<PgUser>> GetByFirstNameAsync(string firstName)
     {
         var users = new List<PgUser>();

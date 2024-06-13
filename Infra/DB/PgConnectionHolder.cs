@@ -1,9 +1,17 @@
 using Npgsql;
+using System.Threading.Tasks;
 
+/// <summary>
+/// Manages PostgreSQL database connections.
+/// </summary>
 public class PgConnectionHolder : IDBConnectionHolder
 {
     private NpgsqlConnection? _connection;
 
+    /// <summary>
+    /// Creates and opens a new PostgreSQL database connection asynchronously.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation. The task result contains the created PostgreSQL connection.</returns>
     public async Task<object> CreateConnectionAsync()
     {
         var connectionString = new NpgsqlConnectionStringBuilder
@@ -20,6 +28,10 @@ public class PgConnectionHolder : IDBConnectionHolder
         return _connection;
     }
 
+    /// <summary>
+    /// Disposes the PostgreSQL database connection asynchronously.
+    /// </summary>
+    /// <returns>A task representing the asynchronous dispose operation.</returns>
     public async Task DisposeAsync()
     {
         if (_connection != null)

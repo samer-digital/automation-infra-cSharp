@@ -1,10 +1,16 @@
 using MySql.Data.MySqlClient;
 
+/// <summary>
+/// Manages MySQL database connections.
+/// </summary>
 public class MySQLConnectionHolder : IDBConnectionHolder
 {
     private MySqlConnection? _connection;
 
-
+    /// <summary>
+    /// Creates and opens a new MySQL database connection asynchronously.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation. The task result contains the created MySQL connection.</returns>
     public async Task<object> CreateConnectionAsync()
     {
         var connectionString = new MySqlConnectionStringBuilder
@@ -21,6 +27,10 @@ public class MySQLConnectionHolder : IDBConnectionHolder
         return _connection;
     }
 
+    /// <summary>
+    /// Disposes the MySQL database connection asynchronously.
+    /// </summary>
+    /// <returns>A task representing the asynchronous dispose operation.</returns>
     public async Task DisposeAsync()
     {
         if (_connection != null)
