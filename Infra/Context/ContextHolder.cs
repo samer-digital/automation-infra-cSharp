@@ -35,6 +35,12 @@ public class ContextHolder : IDisposable
         if (_browserContext == null)
         {
             _browserContext = await _browserContextCreator();
+            await _browserContext.Tracing.StartAsync(new()
+            {
+                Screenshots = true,
+                Snapshots = true,
+                Sources = true
+            });
         }
         return _browserContext;
     }
@@ -100,8 +106,17 @@ public class ContextHolder : IDisposable
     /// </summary>
     public async Task DisposeAsync()
     {
+        var failed = NUnit.Framework.TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Error
+    || NUnit.Framework.TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Failure;
         if (_browserContext != null)
         {
+            await _browserContext.Tracing.StopAsync(new()
+            {
+                Path = failed ? Path.Combine(
+                AppContext.BaseDirectory, @"../../../Resources/playwright-traces",
+                $"{NUnit.Framework.TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.zip"
+            ) : null,
+            });
             await _browserContext.CloseAsync();
         }
         _browserContext = null;

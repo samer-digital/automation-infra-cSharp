@@ -1,9 +1,5 @@
 using Microsoft.Playwright;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 /// <summary>
 /// Manages browser instances, loads browser options, handles tear-down actions, and creates API request contexts.

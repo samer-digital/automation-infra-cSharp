@@ -64,14 +64,6 @@ public abstract class BaseTest : PageTest
         var testName = NUnit.Framework.TestContext.CurrentContext.Test.Name;
         _testContext = new TestContext(_workerContext, testName, _logger);
 
-        await Context.Tracing.StartAsync(new()
-        {
-            Title = $"{NUnit.Framework.TestContext.CurrentContext.Test.Name}",
-            Screenshots = true,
-            Snapshots = true,
-            Sources = true
-        });
-
         foreach (var plugin in testPlugins)
         {
             await plugin.RunBeforeTest(_workerContext, _testContext, NUnit.Framework.TestContext.CurrentContext);
@@ -86,20 +78,15 @@ public abstract class BaseTest : PageTest
     public async Task TestTeardown()
     {
         _logger.Information("*** After Each ***");
-
-        var failed = NUnit.Framework.TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Error
-            || NUnit.Framework.TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Failure;
-
-        await Context.Tracing.StopAsync(new()
+        
+        if (!NUnit.Framework.TestContext.CurrentContext.Test.ClassName!.Contains("API"))
         {
-            Path = failed ? Path.Combine(
-                AppContext.BaseDirectory, @"../../../Resources/playwright-traces",
-                $"{NUnit.Framework.TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.zip"
-            ) : null,
-        });
+            var failed = NUnit.Framework.TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Error
+                        || NUnit.Framework.TestContext.CurrentContext.Result.Outcome == NUnit.Framework.Interfaces.ResultState.Failure;
 
-        // Capture screenshot if the test failed
-        if (failed) await _testContext.TakeScreenshotsAsync(NUnit.Framework.TestContext.CurrentContext.Test.Name);
+            // Capture screenshot if the test failed
+            if (failed) await _testContext.TakeScreenshotsAsync(NUnit.Framework.TestContext.CurrentContext.Test.Name);
+        }
 
         foreach (var plugin in testPlugins)
         {

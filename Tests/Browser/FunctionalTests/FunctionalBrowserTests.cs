@@ -2,7 +2,7 @@ namespace Browser;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture, Description("Google Maps Functional Tests"), Category("Functional")]
-public class GoogleMapsFunctionalBrowserTests : BaseTest
+public class FunctionalBrowserTests : BaseTest
 {
 
     [Test, Description("Test - search 4 different addresses and validate the results.")]
@@ -12,7 +12,7 @@ public class GoogleMapsFunctionalBrowserTests : BaseTest
     [TestCase("3MX4+X7 Rothenthurm, Switzerland")]
     public async Task SearchAddressesBrowserTest(string address)
     {
-        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsPage(page), new GetPageOptions { ShouldNavigate = true });
+        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMainPage(page), new GetPageOptions { ShouldNavigate = true });
         await googleMapsPage.FillSearchAsync(address);
         await googleMapsPage.ClickSearchButton();
 
@@ -29,7 +29,7 @@ public class GoogleMapsFunctionalBrowserTests : BaseTest
         var addressDestination= "G95C+PP Berlin, Germany";
         var addressStart= "3MX4+X7 Rothenthurm, Switzerland";
 
-        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsPage(page), new GetPageOptions { ShouldNavigate = true });
+        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMainPage(page), new GetPageOptions { ShouldNavigate = true });
         await googleMapsPage.FillSearchAsync(addressDestination);
         await googleMapsPage.ClickDirectionBtn();
 

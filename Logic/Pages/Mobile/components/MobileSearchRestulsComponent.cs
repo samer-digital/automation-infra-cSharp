@@ -5,20 +5,20 @@ public class SearchResultsMobileComponent : ComponentBase
 
     public SearchResultsMobileComponent(PageBase pageBase) : base(pageBase) { }
 
-    private ILocator _locationTitle => _page.Locator("h1[class='DUwDvf fontTitleLarge']");
-    private ILocator _directionBtn => _page.Locator("button[data-value='Directions']");
+    private ILocator LocationTitle => _page.Locator("h1[class='DUwDvf fontTitleLarge']");
+    private ILocator DirectionBtn => _page.Locator("button[data-value='Directions']");
     public async Task<string?> GetLocationTitle()
     {
-        return await _locationTitle.TextContentAsync();
+        return await LocationTitle.TextContentAsync();
     }
 
     public async Task WaitForLocationTitleToBeVisible()
     {
-        await PageBase.WaitForElementToBeVisibleAsync(_locationTitle);
+        await PageBase.WaitForElementToBeVisibleAsync(LocationTitle);
     }
 
     public async Task ClickDirectionBtn()
     {
-        await _directionBtn.ClickAsync();
+        await DirectionBtn.ClickAsync();
     }
 }

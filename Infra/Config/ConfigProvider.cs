@@ -31,7 +31,7 @@ public static class ConfigProvider
     
     public static string BROWSER => Environment.GetEnvironmentVariable("BROWSER") ?? "chromium";
     public static string WEBSITE_BASE_URL => Environment.GetEnvironmentVariable("WEBSITE_BASE_URL") ?? "";
-    public static string? API_BASE_URL => Environment.GetEnvironmentVariable("API_BASE_URL");
+    public static string API_BASE_URL => Environment.GetEnvironmentVariable("API_BASE_URL") ?? "";
 
     public static string PG_DB_HOST => Environment.GetEnvironmentVariable("PG_DB_HOST") ?? "localhost";
     public static int PG_DB_PORT => int.Parse(Environment.GetEnvironmentVariable("PG_DB_PORT") ?? "5432");

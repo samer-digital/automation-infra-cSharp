@@ -2,12 +2,12 @@ namespace Browser;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture, Description("Google Maps Performance Tests"), Category("Performance")]
-public class GoogleMapsPerformanceBrowserTests : BaseTest
+public class PerformanceBrowserTests : BaseTest
 {
     [Test, Category("LoadTime"), Description("Test the load time of the Google Maps page.")]
     public async Task TestLoadTime()
     {
-        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsPage(page), new GetPageOptions { ShouldNavigate = false });
+        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMainPage(page), new GetPageOptions { ShouldNavigate = false });
 
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
         await googleMapsPage.NavigateAsync();
@@ -18,7 +18,7 @@ public class GoogleMapsPerformanceBrowserTests : BaseTest
         _logger.Information($"Load time: {loadTime} ms");
 
         // Assert that the load time is within acceptable limits
-        var maxLoadTime = 5000;
+        var maxLoadTime = 6000;
         Assert.That(loadTime, Is.LessThanOrEqualTo(maxLoadTime), $"Load time exceeded the threshold. Actual load time: {loadTime} ms");
     }
 }

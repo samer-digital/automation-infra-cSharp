@@ -121,19 +121,19 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: code-coverage
+        name: code-coverage-${{ matrix.browser }}
         path: Tests/Resources/code/**/coverage.cobertura.xml
 
     - name: Upload screenshots
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: screenshots
+        name: screenshots-${{ matrix.browser }}
         path: Tests/Resources/screenshots
 
     - name: Upload Playwright traces
       if: always()
       uses: actions/upload-artifact@v3
       with:
-        name: playwright-traces
+        name: playwright-traces-${{ matrix.browser }}
         path: Tests/Resources/playwright-traces

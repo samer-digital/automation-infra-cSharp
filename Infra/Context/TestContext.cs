@@ -73,7 +73,7 @@ public class TestContext
     /// </summary>
     /// <param name="contextKey">The context key.</param>
     /// <returns>The context holder for the specified context key.</returns>
-    private ContextHolder GetContext(string contextKey)
+    private Task<ContextHolder> GetContextAsync(string contextKey)
     {
         if (!_contextHolders.ContainsKey(contextKey))
         {
@@ -105,12 +105,13 @@ public class TestContext
 
                     return browserContext;
                 },
-                async () => await _workerContext.GetApiRequestContextAsync(),
+                _workerContext.GetApiRequestContextAsync,
                 _logger
             );
+
             _contextHolders[contextKey] = contextHolder;
         }
-        return _contextHolders[contextKey];
+        return Task.FromResult(_contextHolders[contextKey]);
     }
 
     /// <summary>
@@ -125,7 +126,7 @@ public class TestContext
         options ??= new GetPageOptions { ContextKey = "default", ShouldNavigate = false };
         options.ContextKey ??= "default";
 
-        var contextHolder = GetContext(options.ContextKey);
+        var contextHolder = await GetContextAsync(options.ContextKey);
         var page = await contextHolder.GetPageAsync();
         var typedPage = pageClassFactory(page);
 
@@ -135,6 +136,21 @@ public class TestContext
         }
 
         return typedPage;
+    }
+
+    /// <summary>
+    /// Gets the API context asynchronously.
+    /// </summary>
+    /// <typeparam name="T">The type of the API class.</typeparam>
+    /// <param name="apiClassFactory">The factory method to create the API class instance.</param>
+    /// <param name="options">The options for getting the API context.</param>
+    /// <returns>The API class instance.</returns>
+    public async Task<T> GetApiAsync<T>(Func<IAPIRequestContext, T> apiClassFactory, GetApiOptions? options = null) where T : ApiBase
+    {
+        options ??= new GetApiOptions { ContextKey = "default" };
+        var contextHolder = await GetContextAsync(options.ContextKey!);
+        var apiContext = await contextHolder.GetApiAsync();
+        return apiClassFactory(apiContext);
     }
 
     /// <summary>

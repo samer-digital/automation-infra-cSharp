@@ -1,8 +1,8 @@
 namespace MobileBrowser;
 
 [Parallelizable(ParallelScope.Self)]
-[TestFixture, Description("Google maps tests")]
-public class GoogleMapsMobileBrowserTests : BaseTest
+[TestFixture, Description("Google Maps Mobile Tests")]
+public class MobileBrowserTests : BaseTest
 {
 
     [OneTimeSetUp]
@@ -21,7 +21,7 @@ public class GoogleMapsMobileBrowserTests : BaseTest
     [TestCase("3MX4+X7 Rothenthurm, Switzerland")]
     public async Task SearchAddressesMobileTests(string address)
     {
-        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMobilePage(page), new GetPageOptions { ContextKey = "mobile", ShouldNavigate = true });
+        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMainMobilePage(page), new GetPageOptions { ContextKey = "mobile", ShouldNavigate = true });
         await googleMapsPage.ClickKeepUsingWebBtn();
         await googleMapsPage.FillSearchAsync(address);
 
@@ -37,7 +37,7 @@ public class GoogleMapsMobileBrowserTests : BaseTest
     {
         var invalidAddress = "Invalid Address Test 12345";
 
-        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMobilePage(page), new GetPageOptions { ContextKey = "mobile", ShouldNavigate = true });
+        var googleMapsPage = await _testContext.GetPageAsync(page => new GoogleMapsMainMobilePage(page), new GetPageOptions { ContextKey = "mobile", ShouldNavigate = true });
         await googleMapsPage.ClickKeepUsingWebBtn();
 
         await googleMapsPage.FillSearchAsync(invalidAddress);
