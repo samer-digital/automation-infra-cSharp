@@ -5,6 +5,8 @@ public class GoogleMapsMainPage : GoogleMapsMenuPageBase
     private ILocator SearchInputLocator;
     private ILocator SearchButton;
     private ILocator CurrentLocationBtn;
+    private ILocator HistoryItems => _page.Locator("li button[data-bundle-id]");
+
 
     public GoogleMapsMainPage(IPage page) : base(page)
     {
@@ -13,7 +15,11 @@ public class GoogleMapsMainPage : GoogleMapsMenuPageBase
         CurrentLocationBtn = page.Locator(".sVuEFc");
     }
 
-
+    public async Task<string?> GetFirstHistoryItemAsync()
+    {
+        var firstItem = await HistoryItems.Nth(0).TextContentAsync();
+        return firstItem;
+    }
 
     public override string PageUrl => BaseUrl;
 

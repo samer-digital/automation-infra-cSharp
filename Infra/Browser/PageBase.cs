@@ -19,9 +19,19 @@ public abstract class PageBase
         await _page.Keyboard.PressAsync(buttonName);
     }
 
+    public async Task<string> GetClipboardText()
+    {
+        return await _page.EvaluateAsync<string>("navigator.clipboard.readText()");
+    }
+
     public async Task NavigateAsync()
     {
         await _page.GotoAsync(PageUrl);
+    }
+
+    public async Task CustomNavigateAsync(string url)
+    {
+        await _page.GotoAsync(url);
     }
 
     public async Task WaitForLoadStateAsync()
