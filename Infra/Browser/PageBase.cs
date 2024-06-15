@@ -31,8 +31,7 @@ public abstract class PageBase
 
     public async Task CustomNavigateAsync(string url)
     {
-        await _page.GotoAsync(url);
-        await WaitForLoadNetworkAsync();
+        await _page.GotoAsync(url, new PageGotoOptions() {WaitUntil = WaitUntilState.DOMContentLoaded});
     }
 
     public async Task WaitForLoadStateAsync()
