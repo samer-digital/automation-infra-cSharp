@@ -139,6 +139,27 @@ public class TestContext
     }
 
     /// <summary>
+    /// Opens a new tab (page) in the current browser context.
+    /// </summary>
+    /// <returns>The new page (tab) instance.</returns>
+    public async Task<T> GetNewTabAsync<T>(Func<IPage, T> pageClassFactory, GetPageOptions? options = null) where T : PageBase
+    {
+        options ??= new GetPageOptions { ContextKey = "default", ShouldNavigate = false };
+        options.ContextKey ??= "default";
+
+        var contextHolder = await GetContextAsync(options.ContextKey);
+        var page = await contextHolder.NewTabAsync();
+        return pageClassFactory(page);
+    }
+
+
+    public async Task<IPage> SwitchToTabAsync(int tabIndex, string contextKey = "default")
+    {
+        var contextHolder = await GetContextAsync(contextKey);
+        return await contextHolder.SwitchToTabAsync(tabIndex);
+    }
+
+    /// <summary>
     /// Gets the API context asynchronously.
     /// </summary>
     /// <typeparam name="T">The type of the API class.</typeparam>

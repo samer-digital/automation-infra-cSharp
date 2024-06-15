@@ -15,7 +15,8 @@ public abstract class PageBase
 
     public string BaseUrl => ConfigProvider.WEBSITE_BASE_URL;
 
-    public async Task KeyboardPress(string buttonName) {
+    public async Task KeyboardPress(string buttonName)
+    {
         await _page.Keyboard.PressAsync(buttonName);
     }
 
@@ -31,7 +32,7 @@ public abstract class PageBase
 
     public async Task CustomNavigateAsync(string url)
     {
-        await _page.GotoAsync(url, new PageGotoOptions() {WaitUntil = WaitUntilState.DOMContentLoaded});
+        await _page.GotoAsync(url, new PageGotoOptions() { WaitUntil = WaitUntilState.DOMContentLoaded });
     }
 
     public async Task WaitForLoadStateAsync()

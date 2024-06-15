@@ -51,11 +51,11 @@ public class FunctionalBrowserTests : BaseTest
         var searchResultsComponent = googleMapsPage.GetSearchResultsComponent();
         await searchResultsComponent.ClickSharehLocationBtn();
         string? link = await searchResultsComponent.getLinkToShare();
-        await searchResultsComponent.ClickCloseSharehPopupBtn();
-
+        
+        var newTabGoogleMapsPage = await _testContext.GetNewTabAsync(page => new GoogleMapsMainPage(page));
         if (!string.IsNullOrEmpty(link))
         {
-            await googleMapsPage.CustomNavigateAsync(link);
+            await newTabGoogleMapsPage.CustomNavigateAsync(link);;
         }
         string code = Utils.ExtractFirstWord(Switzerland);
         Assert.That(await searchResultsComponent.GetLocationTitle(), Is.EqualTo(code));

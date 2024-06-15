@@ -77,6 +77,22 @@ public class ContextHolder : IDisposable
         return browserContext.Pages[0];
     }
 
+    public async Task<IPage> NewTabAsync()
+    {
+        var browserContext = await GetBrowserContextAsync();
+        return await browserContext.NewPageAsync();
+    }
+
+    public async Task<IPage> SwitchToTabAsync(int tabIndex)
+    {
+        var browserContext = await GetBrowserContextAsync();
+        if (tabIndex < 0 || tabIndex >= browserContext.Pages.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(tabIndex), "Invalid tab index");
+        }
+        return browserContext.Pages[tabIndex];
+    }
+
     public AppiumDriver GetDriverAsync(AppiumOptions options, PlatformName platformName)
     {
         if (_driver == null)
