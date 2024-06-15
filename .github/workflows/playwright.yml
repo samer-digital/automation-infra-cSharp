@@ -137,4 +137,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: playwright-traces-${{ matrix.browser }}
-        path: Tests/Resources/playwright-traces
+        path: Tests/Resources/playwright-traces/*.zip
