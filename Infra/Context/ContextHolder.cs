@@ -147,7 +147,7 @@ public class ContextHolder : IDisposable
         {
             await _browserContext.Tracing.StopAsync(new()
             {
-                Path = failed || NUnit.Framework.TestContext.CurrentContext.Test.Name == "CopyAddressLinkAndNavigateTest" ? Path.Combine(
+                Path = failed ? Path.Combine(
                 AppContext.BaseDirectory, @"../../../Resources/playwright-traces",
                 $"{NUnit.Framework.TestContext.CurrentContext.Test.Name}_{DateTime.Now:yyyyMMdd_HHmmss}.zip"
             ) : null,
