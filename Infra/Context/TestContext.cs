@@ -59,7 +59,7 @@ public class TestContext
             Locale = contextOptions.Locale,
             TimezoneId = contextOptions.TimezoneId,
             Geolocation = contextOptions.Geolocation != null ? new Geolocation { Latitude = contextOptions.Geolocation.Latitude, Longitude = contextOptions.Geolocation.Longitude } : null,
-            IgnoreHTTPSErrors = true,
+            IgnoreHTTPSErrors = contextOptions.IgnoreHTTPSErrors,
             JavaScriptEnabled = contextOptions.JavaScriptEnabled,
             DeviceScaleFactor = contextOptions.DeviceScaleFactor > 0 ? contextOptions.DeviceScaleFactor : null,
             IsMobile = contextOptions.IsMobile,
