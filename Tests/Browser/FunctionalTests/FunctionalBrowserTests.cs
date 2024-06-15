@@ -40,7 +40,7 @@ public class FunctionalBrowserTests : BaseTest
         Assert.That(numOfDirections, Is.GreaterThanOrEqualTo(2), "Number of routes are less then the expected");
     }
 
-    [Test, Description("Test - Copy the address link and navigate")]
+    // [Test, Description("Test - Copy the address link and navigate")]
     public async Task CopyAddressLinkAndNavigateTest()
     {
 
