@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Automation Tests Run
 
 on:
   push:
@@ -15,8 +15,8 @@ jobs:
       matrix:
         browser: [chromium, firefox, webkit]
 
-      # We can set those env in the CI to inject them but for now they are here :)
-    env:
+      
+    env: # We can set those env in the CI to inject them but for now they are here :)
       ENABLE_ENV_INJECTION: true 
       NAME: samer-framework-dotnet
       VERSION: 0.0.1
@@ -120,21 +120,21 @@ jobs:
 
     - name: Upload code coverage reports
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: code-coverage-${{ matrix.browser }}
         path: Tests/Resources/code/**/coverage.cobertura.xml
 
     - name: Upload screenshots
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: screenshots-${{ matrix.browser }}
         path: Tests/Resources/screenshots
 
     - name: Upload Playwright traces
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: playwright-traces-${{ matrix.browser }}
         path: Tests/Resources/playwright-traces/*.zip
