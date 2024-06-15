@@ -52,10 +52,9 @@ public class FunctionalBrowserTests : BaseTest
         await searchResultsComponent.ClickSharehLocationBtn();
         string? link = await searchResultsComponent.getLinkToShare();
         
-        var newTabGoogleMapsPage = await _testContext.GetNewTabAsync(page => new GoogleMapsMainPage(page));
         if (!string.IsNullOrEmpty(link))
         {
-            await newTabGoogleMapsPage.CustomNavigateAsync(link);;
+            await googleMapsPage.CustomNavigateAsync(link);;
         }
         string code = Utils.ExtractFirstWord(Switzerland);
         Assert.That(await searchResultsComponent.GetLocationTitle(), Is.EqualTo(code));
